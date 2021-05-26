@@ -1,10 +1,11 @@
 ﻿@page "/"
+@using System.Timers
 
 
 
 <h1>Piedra, Papel y Tijeras</h1>
 
-<button>Reiniciar</button>
+<button class="btn btn-info">Reiniciar</button>
 
 <div style="display: flex; justify-content: center; margin-bottom: 20px;">
     <img src="~/papel.jpg" alt="Imagen" class="imagen"/>
@@ -15,3 +16,20 @@
     <img src="~/piedra.jpg" alt="piedra" class="imagen imagen-seleccionable" />
     <img src="~/tijeras.jpg" alt="tijeras" class="imagen imagen-seleccionable" />
 </div>
+
+@code {
+    Timer timer;
+
+    protected override void OnInitialized()
+    {
+        timer = new Timer();
+        timer.Interval = 500;
+        timer.Elapsed += TimerOnElapsed;
+        timer.Start();
+    }
+
+    private void TimerOnElapsed(object sender, ElapsedEventArgs e)
+        {
+        Console.WriteLine("Timer ejecutado");
+        }
+}
