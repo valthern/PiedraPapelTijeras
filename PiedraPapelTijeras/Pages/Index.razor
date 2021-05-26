@@ -1,5 +1,6 @@
 ﻿@page "/"
 @using System.Timers
+@implements IDisposable
 
 
 
@@ -8,16 +9,25 @@
 <button class="btn btn-info">Reiniciar</button>
 
 <div style="display: flex; justify-content: center; margin-bottom: 20px;">
-    <img src="~/papel.jpg" alt="Imagen" class="imagen"/>
+    <img src="papel.jpg" alt="Imagen" class="imagen" />
 </div>
 
 <div style="display:flex; justify-content:space-around;">
-    <img src="~/papel.jpg" alt="papel" class="imagen imagen-seleccionable" />
-    <img src="~/piedra.jpg" alt="piedra" class="imagen imagen-seleccionable" />
-    <img src="~/tijeras.jpg" alt="tijeras" class="imagen imagen-seleccionable" />
+    <img src="papel.jpg" alt="papel" class="imagen imagen-seleccionable" />
+    <img src="piedra.jpg" alt="piedra" class="imagen imagen-seleccionable" />
+    <img src="tijeras.jpg" alt="tijeras" class="imagen imagen-seleccionable" />
 </div>
 
+
+
 @code {
+    List<Jugada> Jugadas = new List<Jugada>()
+{
+        new Jugada{Imagen="piedra.jpg",OptionPPT=OptionPPT.Piedra,VenceA=OptionPPT.Tijera,PierdeContra=OptionPPT.Papel },
+        new Jugada{Imagen="papel.jpg",OptionPPT=OptionPPT.Papel,VenceA=OptionPPT.Piedra,PierdeContra=OptionPPT.Tijera},
+        new Jugada{Imagen="tijeras.jpg",OptionPPT=OptionPPT.Tijera,VenceA=OptionPPT.Papel,PierdeContra=OptionPPT.Piedra}
+        };
+
     Timer timer;
 
     protected override void OnInitialized()
@@ -28,8 +38,43 @@
         timer.Start();
     }
 
-    private void TimerOnElapsed(object sender, ElapsedEventArgs e)
+    class Jugada
+    {
+        public OptionPPT OptionPPT { get; set; }
+        public OptionPPT VenceA { get; set; }
+        public OptionPPT PierdeContra { get; set; }
+        public string Imagen { get; set; }
+
+        public EstatusJuego JugarContra(Jugada jugada2)
         {
-        Console.WriteLine("Timer ejecutado");
+            if (OptionPPT == jugada2.OptionPPT)
+            {
+                return EstatusJuego.Empate;
+            }
+
+            if (VenceA == jugada2.OptionPPT)
+            {
+                return EstatusJuego.Victoria;
+            }
+
+            return EstatusJuego.Derrota;
         }
+    }
+
+    enum OptionPPT { Piedra, Papel, Tijera }
+
+    enum EstatusJuego { Victoria, Derrota, Empate }
+
+    private void TimerOnElapsed(object sender, ElapsedEventArgs e)
+    {
+        Console.WriteLine("Timer ejecutado");
+    }
+
+    public void Dispose()
+    {
+        if (timer != null)
+        {
+            timer.Dispose();
+        }
+    }
 }

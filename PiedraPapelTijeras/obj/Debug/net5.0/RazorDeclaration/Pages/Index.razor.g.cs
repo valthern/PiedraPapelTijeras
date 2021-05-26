@@ -13,83 +13,119 @@ namespace PiedraPapelTijeras.Pages
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Components;
 #nullable restore
-#line 1 "C:\Users\Omar\source\repos\PiedraPapelTijeras\PiedraPapelTijeras\_Imports.razor"
+#line 1 "C:\Users\magno\source\ejemplos\net5\PiedraPapelTijeras\PiedraPapelTijeras\_Imports.razor"
 using System.Net.Http;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\Omar\source\repos\PiedraPapelTijeras\PiedraPapelTijeras\_Imports.razor"
+#line 2 "C:\Users\magno\source\ejemplos\net5\PiedraPapelTijeras\PiedraPapelTijeras\_Imports.razor"
 using System.Net.Http.Json;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 3 "C:\Users\Omar\source\repos\PiedraPapelTijeras\PiedraPapelTijeras\_Imports.razor"
+#line 3 "C:\Users\magno\source\ejemplos\net5\PiedraPapelTijeras\PiedraPapelTijeras\_Imports.razor"
 using Microsoft.AspNetCore.Components.Forms;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 4 "C:\Users\Omar\source\repos\PiedraPapelTijeras\PiedraPapelTijeras\_Imports.razor"
+#line 4 "C:\Users\magno\source\ejemplos\net5\PiedraPapelTijeras\PiedraPapelTijeras\_Imports.razor"
 using Microsoft.AspNetCore.Components.Routing;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 5 "C:\Users\Omar\source\repos\PiedraPapelTijeras\PiedraPapelTijeras\_Imports.razor"
+#line 5 "C:\Users\magno\source\ejemplos\net5\PiedraPapelTijeras\PiedraPapelTijeras\_Imports.razor"
 using Microsoft.AspNetCore.Components.Web;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 6 "C:\Users\Omar\source\repos\PiedraPapelTijeras\PiedraPapelTijeras\_Imports.razor"
+#line 6 "C:\Users\magno\source\ejemplos\net5\PiedraPapelTijeras\PiedraPapelTijeras\_Imports.razor"
 using Microsoft.AspNetCore.Components.Web.Virtualization;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 7 "C:\Users\Omar\source\repos\PiedraPapelTijeras\PiedraPapelTijeras\_Imports.razor"
+#line 7 "C:\Users\magno\source\ejemplos\net5\PiedraPapelTijeras\PiedraPapelTijeras\_Imports.razor"
 using Microsoft.AspNetCore.Components.WebAssembly.Http;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 8 "C:\Users\Omar\source\repos\PiedraPapelTijeras\PiedraPapelTijeras\_Imports.razor"
+#line 8 "C:\Users\magno\source\ejemplos\net5\PiedraPapelTijeras\PiedraPapelTijeras\_Imports.razor"
 using Microsoft.JSInterop;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 9 "C:\Users\Omar\source\repos\PiedraPapelTijeras\PiedraPapelTijeras\_Imports.razor"
+#line 9 "C:\Users\magno\source\ejemplos\net5\PiedraPapelTijeras\PiedraPapelTijeras\_Imports.razor"
 using PiedraPapelTijeras;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 10 "C:\Users\Omar\source\repos\PiedraPapelTijeras\PiedraPapelTijeras\_Imports.razor"
+#line 10 "C:\Users\magno\source\ejemplos\net5\PiedraPapelTijeras\PiedraPapelTijeras\_Imports.razor"
 using PiedraPapelTijeras.Shared;
 
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 2 "C:\Users\magno\source\ejemplos\net5\PiedraPapelTijeras\PiedraPapelTijeras\Pages\Index.razor"
+using System.Timers;
+
+#line default
+#line hidden
+#nullable disable
     [Microsoft.AspNetCore.Components.RouteAttribute("/")]
-    public partial class Index : Microsoft.AspNetCore.Components.ComponentBase
+    public partial class Index : Microsoft.AspNetCore.Components.ComponentBase, IDisposable
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
         {
         }
         #pragma warning restore 1998
+#nullable restore
+#line 23 "C:\Users\magno\source\ejemplos\net5\PiedraPapelTijeras\PiedraPapelTijeras\Pages\Index.razor"
+       
+    Timer timer;
+
+    protected override void OnInitialized()
+    {
+        timer = new Timer();
+        timer.Interval = 500;
+        timer.Elapsed += TimerOnElapsed;
+        timer.Start();
+    }
+
+    private void TimerOnElapsed(object sender, ElapsedEventArgs e)
+    {
+        Console.WriteLine("Timer ejecutado");
+    }
+
+    public void Dispose()
+    {
+        if (timer != null)
+        {
+            timer.Dispose();
+        }
+    }
+
+#line default
+#line hidden
+#nullable disable
     }
 }
 #pragma warning restore 1591
