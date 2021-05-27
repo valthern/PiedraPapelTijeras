@@ -1,4 +1,4 @@
 ﻿<StaticWebAssets Version="1.0">
-  <ContentRoot BasePath="/" Path="C:\Users\magno\source\ejemplos\net5\PiedraPapelTijeras\PiedraPapelTijeras\bin\Debug\net5.0\wwwroot\" />
-  <ContentRoot BasePath="/" Path="C:\Users\magno\source\ejemplos\net5\PiedraPapelTijeras\PiedraPapelTijeras\obj\Debug\net5.0\scopedcss\bundle\" />
+  <ContentRoot BasePath="/" Path="C:\Users\Omar\source\ejemplos\net5\PiedraPapelTijeras\PiedraPapelTijeras\bin\Debug\net5.0\wwwroot\" />
+  <ContentRoot BasePath="/" Path="C:\Users\Omar\source\ejemplos\net5\PiedraPapelTijeras\PiedraPapelTijeras\obj\Debug\net5.0\scopedcss\bundle\" />
 </StaticWebAssets>

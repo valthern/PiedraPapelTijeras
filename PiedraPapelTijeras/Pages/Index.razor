@@ -6,36 +6,84 @@
 
 <h1>Piedra, Papel y Tijeras</h1>
 
-<button class="btn btn-info">Reiniciar</button>
+@if (!string.IsNullOrEmpty(resultadoMensaje))
+{
+    <h3 style="color: @resultadoMensajeColor">@resultadoMensaje</h3>
+}
+
+<button class="btn btn-info" @onclick="Reiniciar">Reiniciar</button>
 
 <div style="display: flex; justify-content: center; margin-bottom: 20px;">
-    <img src="papel.jpg" alt="Imagen" class="imagen" />
+    <img src="@jugadaOponente.Imagen" alt="Imagen" class="imagen" />
 </div>
 
 <div style="display:flex; justify-content:space-around;">
-    <img src="papel.jpg" alt="papel" class="imagen imagen-seleccionable" />
-    <img src="piedra.jpg" alt="piedra" class="imagen imagen-seleccionable" />
-    <img src="tijeras.jpg" alt="tijeras" class="imagen imagen-seleccionable" />
+    @foreach (var jugada in jugadas)
+    {
+        <img src="@jugada.Imagen" class="imagen imagen-seleccionable" @onclick="@(() => SeleccionarJugada(jugada))" />
+    }
 </div>
 
 
 
 @code {
-    List<Jugada> Jugadas = new List<Jugada>()
-{
+    List<Jugada> jugadas = new List<Jugada>()
+    {
         new Jugada{Imagen="piedra.jpg",OptionPPT=OptionPPT.Piedra,VenceA=OptionPPT.Tijera,PierdeContra=OptionPPT.Papel },
-        new Jugada{Imagen="papel.jpg",OptionPPT=OptionPPT.Papel,VenceA=OptionPPT.Piedra,PierdeContra=OptionPPT.Tijera},
-        new Jugada{Imagen="tijeras.jpg",OptionPPT=OptionPPT.Tijera,VenceA=OptionPPT.Papel,PierdeContra=OptionPPT.Piedra}
-        };
+        new Jugada{Imagen="tijeras.jpg",OptionPPT=OptionPPT.Tijera,VenceA=OptionPPT.Papel,PierdeContra=OptionPPT.Piedra},
+        new Jugada{Imagen="papel.jpg",OptionPPT=OptionPPT.Papel,VenceA=OptionPPT.Piedra,PierdeContra=OptionPPT.Tijera}
+    };
 
+    Jugada jugadaOponente;
+    string resultadoMensaje;
+    string resultadoMensajeColor;
     Timer timer;
 
     protected override void OnInitialized()
     {
+        jugadaOponente = jugadas[0];
         timer = new Timer();
-        timer.Interval = 500;
+        timer.Interval = 100;
         timer.Elapsed += TimerOnElapsed;
         timer.Start();
+    }
+
+    private void Reiniciar()
+    {
+        timer.Start();
+        resultadoMensaje = null;
+        resultadoMensajeColor = null;
+    }
+
+    private void SeleccionarJugada(Jugada jugada)
+    {
+        timer.Stop();
+        var resultado = jugada.JugarContra(jugadaOponente);
+
+        if (resultado == EstatusJuego.Victoria)
+        {
+            resultadoMensaje = "Ganaste!";
+            resultadoMensajeColor = "green";
+        }
+        else if(resultado == EstatusJuego.Derrota)
+        {
+            resultadoMensaje = "Perdiste!";
+            resultadoMensajeColor = "red";
+        }
+        else
+        {
+            resultadoMensaje = "Empate!";
+            resultadoMensajeColor = "black";
+        }
+    }
+
+    int indiceJugadaOponente = 0;
+
+    private void TimerOnElapsed(object sender, ElapsedEventArgs e)
+    {
+        indiceJugadaOponente = (indiceJugadaOponente + 1) % jugadas.Count;
+        jugadaOponente = jugadas[indiceJugadaOponente];
+        StateHasChanged();
     }
 
     class Jugada
@@ -64,11 +112,6 @@
     enum OptionPPT { Piedra, Papel, Tijera }
 
     enum EstatusJuego { Victoria, Derrota, Empate }
-
-    private void TimerOnElapsed(object sender, ElapsedEventArgs e)
-    {
-        Console.WriteLine("Timer ejecutado");
-    }
 
     public void Dispose()
     {
